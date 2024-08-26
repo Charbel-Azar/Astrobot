@@ -1,0 +1,497 @@
+@font-face {
+    font-family: 'Astro';
+    src: url('../fonts/LevelNameFont.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+* {
+    font-family: 'Astro', sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+ 
+}
+
+/* Base setup for vertical touch screen */
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #0073F5;
+    overflow: hidden; /* Prevents scrolling */
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Ensuring full width */
+     /* Add padding inside the container to create space around the content */
+}
+main{
+    overflow: auto;
+    padding-bottom: 100px;
+    min-height: calc(100vh - 75px - 55px);
+    width: 95%
+}
+/*CSS OF CARDS*/
+
+/* Container for the game cards */
+.memory-game {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns as specified */
+    gap: 4vh; /* Reduced gap for better fitting */
+    justify-content: center; /* Center the grid horizontally */
+    align-items: center; /* Center the cards within the grid vertically */
+    padding: 2vh;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    width: 100%; /* Ensure the container is full width */
+    max-width: 50vh; /* Limit the container width for vertical screens */
+    margin: 0 auto;
+}
+
+.memory-card {
+    width: 9vh;
+    height: 16vh; /* Keeping a square card */
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    cursor: pointer;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover and active states */
+.memory-card:hover {
+    transform: scale(0.96);
+}
+
+.memory-card:active {
+    transform: scale(0.92);
+}
+
+/* Flipping effect */
+.memory-card.flip {
+    transform: rotateY(180deg);
+}
+
+/* Card faces */
+.front-face, .back-face {
+    width: 9vh;
+    height: 16vh; /* Match the height of the card */
+    position: absolute;
+    backface-visibility: hidden;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.front-face {
+    background-color: white;
+    transform: rotateY(180deg);
+}
+
+.back-face {
+    background-color: #0073F5;
+}
+
+/* SVG inside the card */
+.memory-card img {
+    max-width: 70%;
+    max-height: 70%;
+}
+.leaderboard-icon {
+    position: absolute;
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed (changed from 'left' to 'right') */
+    width: 30px; /* Adjust the size of the icon */
+    height: 30px; /* Adjust the size of the icon */
+    z-index: 10; /* Ensure it is above other elements */
+}
+
+.leaderboard-icon img {
+    width: 100%;
+    height: 100%;
+    cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 20px; /* Top and bottom margins are 40px, left and right are 20px */
+    padding: 20px; /* Add padding inside the card */
+    border-radius: 15px; /* Rounded corners */
+    background-color: #ffffff; /* Background color of the card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds a shadow for a card effect */
+    max-width: 1200px; /* Set a max width for the card */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*CSS OF HEADER*/
+.header {
+    height: 50px;
+    display: block;
+    background: rgba(255, 255, 255, 0.5);
+    margin-bottom: 1%;
+}
+
+.header-title {
+    display: flex;
+    justify-content: center; /* Centers the image horizontally */
+    align-items: center; /* Centers the image vertically */
+    flex-wrap: wrap;
+    position: relative;
+    text-align: center;
+    height: 100%; /* Ensure the height is defined to center vertically */
+}
+
+
+.header-title-text {
+    text-align: center;
+    margin: auto;
+    text-shadow: 1px 1px white;
+}
+
+/*CSS OF MENU*/
+.menu {
+    display: flex;
+    justify-content: center; /* Center the menu items */
+    gap: 20px; /* Add space between the menu items */
+    margin: auto;
+    background-color: rgb(255, 255, 255);
+    padding: 10px 0; /* Add padding for vertical spacing */
+}
+
+.menu-link {
+    font-family: 'Astro', sans-serif;
+    font-weight: bold;
+    padding: 10px 20px; /* Adjust padding for better spacing */
+    position: relative;
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    background-color: white;
+    border-radius: 0; /* Initial border-radius, no rounding */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.menu-link:hover {
+    background-color: white;
+    border-radius: 20px; /* Apply border-radius on hover */
+    box-shadow: 0 0 10px  #0073F5; /* Blue shadow on hover */
+    color:  #0073F5; /* Change text color on hover for better visibility */
+}
+
+/* CSS OF STOPWATCH */
+#stopwatch {
+    font-size: 7vw; /* Adjust based on viewport width */
+    text-align: center;
+    margin: 0 auto;
+}
+
+.stopwatch-time {
+    display: inline-block;
+    margin-top: 2vh;
+    width: 15ch; /* Adjusted width for large screen */
+    text-align: center;
+}
+
+.parent-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+/* Adjusted height for better fitting */
+}
+
+
+#stopwatch-end
+{
+    position:relative;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-size: 25px;
+    color:black;
+}
+
+/*CSS OF WINBOX*/
+.win-box {
+    display: none; /* Start hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1000; /* Ensure it is on top of other elements */
+    justify-content: center;
+    align-items: center;
+}
+
+.win-box.on {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 2s ease-out;
+}
+.win-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.win-content.on {
+    text-align: center;
+    color: black;
+    background-color: rgb(255, 255, 255);
+    padding: 3vh; /* Adjusted padding for large screens */
+    border-radius: 5px;
+    width: 50vh; /* Adjusted width for vertical screen */
+    opacity: 1;
+    transition: transform 1s ease-out, opacity 0.5s ease-out;
+}
+#username
+{
+    font-size: 50px;
+    margin-top: 25px;
+    border-radius: 5px;
+    padding: 5px;
+    width: -webkit-fill-available;
+    text-shadow: 0px 0px white;
+}
+
+.win-content > h1{
+    text-shadow: 1px 1px white;
+}
+
+/*CSS OF ABOUT BOX IN ABOUT PAGE*/
+.about-box {
+    display: flex;
+    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    justify-content: center;
+    padding: 20px;
+}
+
+#about-header{
+    font-size: 50px;
+    color: black;
+    text-shadow: 1px 1px white;
+    text-align: center;
+    margin: auto;
+}
+
+#about-text{
+    margin-top: 25px;
+    font-size: 25px;
+    color: black;
+    text-shadow: 0.5px 0.5px white;
+}
+
+#example {
+    margin-top: 25px;
+    width: 800px;
+    height: 800px;
+    border-radius: 10px;
+}
+
+/*CSS OF TABLE IN LEADERBOARDS PAGE*/
+table {
+    border-collapse: collapse;
+}
+
+td, th{
+    width: 1000px;
+    font-size: 30px;
+    border: 2px solid #000000;
+}
+
+th {
+    text-align: center;
+    background-color: black;
+    padding: 5px;
+    color: white;
+}
+
+td {
+    text-align: center;
+    padding: 15px;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+
+#choose
+{
+    margin: auto;
+    font-size: 25px;
+    border-radius: 15px;
+    width: 7rem;
+    height: 3rem;
+}
+
+#difficulty
+{
+    width: 860px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: space-between;
+    color: #000000;
+    text-align: center;
+    margin-bottom: 1%;
+    font-size: 25px;
+
+}
+
+#submit-button {
+    font-family: 'Astro', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px 20px; /* Adjust padding for better spacing */
+    color: black;
+    background-color: white;
+    border: 2px solid #0073F5; /* Border color matching the hover effect */
+    border-radius: 20px; /* Rounded corners */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+#submit-button:hover {
+    background-color: white;
+    border-radius: 20px; /* Maintain the border-radius on hover */
+    box-shadow: 0 0 10px #0073F5; /* Blue shadow on hover */
+    color: #0073F5; /* Change text color on hover */
+}
+
+#play-again-button {
+    margin-top: 25px;
+    display: none; /* Initially hidden */
+    font-family: 'Astro', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px 20px; /* Adjust padding for better spacing */
+    color: black;
+    background-color: white;
+    border: 2px solid #0073F5; /* Border color matching the hover effect */
+    border-radius: 20px; /* Rounded corners */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+
+}
+
+#play-again-button:hover {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 0 10px #0073F5;
+    color: #0073F5;
+}
+
+
+.search-bar {
+    margin: 20px auto;
+    width: 50%;
+    text-align: center;
+}
+.search-bar input {
+    width: 80%;
+    padding: 10px;
+    font-size: 18px;
+    border: 2px solid #0073F5;
+    border-radius: 10px;
+}
+.leaderboard-box {
+    margin: 0 auto;
+    width: 90%;
+    max-height: 60vh; /* Set a fixed height for the table container */
+    overflow-y: auto; /* Make the table scrollable vertically */
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    border-collapse: collapse;
+}
+.leaderboard-box table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+}
+.leaderboard-box th, .leaderboard-box td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.leaderboard-box th {
+    background-color: #0073F5;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+.leaderboard-box td:first-child, .leaderboard-box th:first-child {
+    text-align: center;
+    width: 50px;
+}
+.start-again-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-family: 'Astro', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    color: black;
+    background-color: white;
+    border: 2px solid #0073F5;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+.start-again-button:hover {
+    background-color: white;
+    box-shadow: 0 0 10px #0073F5;
+    color: #0073F5;
+}
+/* Custom Scrollbar for Webkit Browsers */
+.leaderboard-box::-webkit-scrollbar {
+border-radius: 10px; 
+width: 12px; /* Set the width of the scrollbar */
+}
+
+.leaderboard-box::-webkit-scrollbar-track {
+background: #ffffff; /* Set the background of the scrollbar track to black */
+}
+
+.leaderboard-box::-webkit-scrollbar-thumb {
+background-color: #0073F5; /* Set the color of the scroll thumb to black */
+border-radius: 10px; /* Add rounded corners to the scrollbar thumb */
+border: 3px solid #ffffff; /* Add a border around the thumb to make it all black */
+}
