@@ -211,7 +211,7 @@ main{
     margin: 0 auto;
     position: relative;
     font-family: 'Courier New', Courier, monospace; /* Use monospace font */
-    font-weight: bold;
+    font-weight: 900;
 }
 
 .stopwatch-time {
