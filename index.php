@@ -82,7 +82,7 @@ if ($_POST && isset($_POST["username"]) && isset($_POST["time"]) && $_POST["user
     error_log("Invalid form submission or missing required fields.");
 }
 // Remove the difficulty selection and set cardNumber directly
-$cardNumber = 4; // Always use 12 cards
+$cardNumber = 12; // Always use 12 cards
 
 // Function that defines the card numbers in one row
 function CardsInRow($cardN)
