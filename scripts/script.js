@@ -12,24 +12,31 @@ var stopwatch = {
 	  stopwatch.etime_form = document.getElementsByClassName("stopwatch-time")[2]; //Hidden Input tag 
     },
   
-    tick : function () {
-    // tick() : update display if stopwatch running
+    tick: function () {
+      // tick() : update display if stopwatch running
       const now = performance.now(); // High-resolution time in milliseconds
       stopwatch.elapsedTime = now - stopwatch.startTime;
-
+  
       const totalSeconds = stopwatch.elapsedTime / 1000;
       const hours = Math.floor(totalSeconds / 3600);
       const mins = Math.floor((totalSeconds % 3600) / 60);
       const secs = Math.floor(totalSeconds % 60);
       const milliseconds = Math.floor(stopwatch.elapsedTime % 1000);
   
+      // Build the time string
+      let timeString = 
+          `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${milliseconds.toString().padStart(3, '0')}`;
+  
+      // Remove leading "00:" if hours are 0
+      if (hours === 0) {
+          timeString = timeString.substring(3);
+      }
+  
       // Update the display timer
-      stopwatch.etime.innerHTML = 
-          `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${milliseconds.toString().padStart(3, '0')}`;
-      stopwatch.etime_end.innerHTML = 
-          `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${milliseconds.toString().padStart(3, '0')}`;
+      stopwatch.etime.innerHTML = timeString;
+      stopwatch.etime_end.innerHTML = timeString;
       stopwatch.etime_form.value = stopwatch.elapsedTime.toFixed(3); // Store time in milliseconds with 3 decimals for microseconds
-    },
+  },  
   
     start : function () {
     // start the stopwatch

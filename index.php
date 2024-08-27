@@ -81,6 +81,27 @@ if ($_POST && isset($_POST["username"]) && isset($_POST["time"]) && $_POST["user
 } else {
     error_log("Invalid form submission or missing required fields.");
 }
+$timeStr = ""; // Initialize the variable
+if (isset($_POST["time"])) {
+    $timeStr = $_POST["time"]; // Get the time of the stopwatch as a string
+
+    // Check if the time string starts with "00:" and remove it
+    if (substr($timeStr, 0, 3) === "00:") {
+        $timeStr = substr($timeStr, 3);
+    }
+
+    // Debugging output
+    error_log("Time received from form: " . $timeStr);
+} else {
+    error_log("No time received from the form.");
+}
+
+// Handle the case where no time was provided
+if (empty($timeStr)) {
+    // Handle the error or set a default value
+    $timeStr = "00:00:00"; // Example of setting a default time
+}
+
 // Remove the difficulty selection and set cardNumber directly
 $cardNumber = 12; // Always use 12 cards
 
@@ -151,18 +172,18 @@ $boxHeight = ($cardValue * ($cardNumber / CardsInRow($cardNumber))) + 170; // Bo
 <div class="card">
 <div class="leaderboard-icon">
         <a href="leaderboards.php">
-            <img src="img/winner.png" alt="Leaderboard">
+            <img src="img/winner (1).png" alt="Leaderboard">
         </a>
     </div>
     <div class="header-title">
-        <img src="img/logo long.png" style="width:45%;" alt="Astro Bot Logo" class="logo">
+        <img src="img/Logo_ASTRO_BOT_TM_Horizontal.png" style="width:45%;" alt="Astro Bot Logo" class="logo">
     </div>
 
     
     <div class="container">
         <div class="parent-div">
             <div id="stopwatch">
-                <span class="stopwatch-time">00:00:00.000</span>
+                <span class="stopwatch-time">00:00.000</span>
             </div>
         </div>  
 

@@ -18,7 +18,7 @@ $conn = OpenCon(); // Open the connection with the database
     <main>
         <div class="card">
             <div class="header-title">
-                <img src="img/logo long.png" style="width:45%;" alt="Astro Bot Logo" class="logo">
+                <img src="img/Logo_ASTRO_BOT_TM_Horizontal.png" style="width:45%;" alt="Astro Bot Logo" class="logo">
             </div>
             <!-- Search Bar -->
             <div class="search-bar">

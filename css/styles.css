@@ -55,7 +55,7 @@ main{
     justify-content: center; /* Center the grid horizontally */
     align-items: center; /* Center the cards within the grid vertically */
     padding: 2vh;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0);
     border-radius: 10px;
     width: 100%; /* Ensure the container is full width */
     max-width: 50vh; /* Limit the container width for vertical screens */
@@ -110,6 +110,7 @@ main{
 
 .back-face {
     background-color: #0073F5;
+    border: 1px solid #ffffff;
 }
 
 /* SVG inside the card */
@@ -140,8 +141,8 @@ main{
     margin: 40px 20px; /* Top and bottom margins are 40px, left and right are 20px */
     padding: 20px; /* Add padding inside the card */
     border-radius: 15px; /* Rounded corners */
-    background-color: #ffffff; /* Background color of the card */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds a shadow for a card effect */
+    background-color: #ffffff00; /* Background color of the card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0); /* Optional: Adds a shadow for a card effect */
     max-width: 1200px; /* Set a max width for the card */
     margin-left: auto;
     margin-right: auto;
@@ -203,10 +204,14 @@ main{
 }
 
 /* CSS OF STOPWATCH */
+/* CSS OF STOPWATCH */
 #stopwatch {
-    font-size: 7vw; /* Adjust based on viewport width */
+    font-size: 4vw; /* Adjust based on viewport width */
     text-align: center;
     margin: 0 auto;
+    position: relative;
+    font-family: 'Courier New', Courier, monospace; /* Use monospace font */
+    font-weight: bold;
 }
 
 .stopwatch-time {
@@ -214,14 +219,21 @@ main{
     margin-top: 2vh;
     width: 15ch; /* Adjusted width for large screen */
     text-align: center;
+    color: white;
+    font-family: 'Courier New', Courier, monospace; /* Use monospace font */
+    font-weight: bold;
+    position: relative;
+    letter-spacing: 0.1ch;
 }
 
 .parent-div {
     display: flex;
     justify-content: center;
     align-items: center;
-/* Adjusted height for better fitting */
+    height: auto;
+    position: relative;
 }
+
 
 
 #stopwatch-end
