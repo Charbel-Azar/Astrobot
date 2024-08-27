@@ -210,11 +210,11 @@ $boxHeight = ($cardValue * ($cardNumber / CardsInRow($cardNumber))) + 170; // Bo
                 <h1>Congratulations, You won!</h1>
                 <div id="stopwatch-end">
                     <span>Your time: </span>
-                    <span class="stopwatch-time">00:00:00</span>
+                    <span class="stopwatch-time" style="color:#000 !important;    font-family: 'Astro', sans-serif !important;">00:00:00</span>
                 </div>
                 <!-- Form that is used to submit the results to the server database -->
                 <form id="win-form">
-                    <input type="hidden" class="stopwatch-time" value="" name="time">
+                    <input type="hidden" class="stopwatch-time"  value="" name="time">
                     <input type="hidden" id="difficulty" value="<?php echo $cardNumber; ?>" name="difficulty">
                     <label for="username" id="username-label" style="padding: 0">Type your name</label>
                     <input type="text" maxlength="32" size="32" id="username" name="username" required />
@@ -225,7 +225,7 @@ $boxHeight = ($cardValue * ($cardNumber / CardsInRow($cardNumber))) + 170; // Bo
                 </form>
                 <input type="button" value="Play Again" id="play-again-button" onclick="location.reload();">
                 <script type="text/javascript">
-           document.getElementById("win-form").onsubmit = function(e) {
+       document.getElementById("win-form").onsubmit = function(e) {
     e.preventDefault(); // Prevent the form from submitting in the traditional way
 
     var username = document.getElementById("username").value;
@@ -235,6 +235,11 @@ $boxHeight = ($cardValue * ($cardNumber / CardsInRow($cardNumber))) + 170; // Bo
     console.log("Time to be submitted:", time); // Debugging line
     console.log("Username:", username); // Debugging line
 
+    if (!username || !time) {
+        console.error("Username or time is missing!");
+        return;
+    }
+
     // AJAX request to submit the form data
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "process_ranking.php", true); // Use a separate PHP file to handle the logic
@@ -242,34 +247,35 @@ $boxHeight = ($cardValue * ($cardNumber / CardsInRow($cardNumber))) + 170; // Bo
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
+            try {
+                var response = JSON.parse(xhr.responseText);
 
-            if (response.status === "error") {
-                document.getElementById("username-error").textContent = response.message;
-                document.getElementById("username-error").style.display = "block";
-            } else {
-                document.getElementById("username-error").style.display = "none";
+                if (response.status === "error") {
+                    document.getElementById("username-error").textContent = response.message;
+                    document.getElementById("username-error").style.display = "block";
+                } else {
+                    document.getElementById("username-error").style.display = "none";
 
-                // Display the rank message
-                var rankMessageDiv = document.getElementById("rank-message");
-                rankMessageDiv.innerHTML = "<h2>" + response.rankMessage + "</h2>" + 
-                                           "<a href='leaderboards.php' class='start-again-button' style='margin-top: 20px;'>Leaderboard</a>";
-                rankMessageDiv.style.textAlign = "center";
-                rankMessageDiv.style.marginTop = "20px";
-                rankMessageDiv.style.color = "green";
+                    var rankMessageDiv = document.getElementById("rank-message");
+                    rankMessageDiv.innerHTML = "<h2>" + response.rankMessage + "</h2>" + 
+                                               "<a href='leaderboards.php' class='start-again-button' style='margin-top: 20px;'>Leaderboard</a>";
+                    rankMessageDiv.style.textAlign = "center";
+                    rankMessageDiv.style.marginTop = "20px";
+                    rankMessageDiv.style.color = "green";
 
-                // Hide the Submit button
-                document.getElementById("submit-button").style.display = "none";
-
-                // Show the Play Again button
-                document.getElementById("play-again-button").style.display = "inline-block";
+                    document.getElementById("submit-button").style.display = "none";
+                    document.getElementById("play-again-button").style.display = "inline-block";
+                }
+            } catch (e) {
+                console.error("Could not parse JSON!", e);
             }
+        } else if (xhr.readyState === 4) {
+            console.error("Request failed. Status: " + xhr.status);
         }
     };
 
     xhr.send("username=" + encodeURIComponent(username) + "&time=" + encodeURIComponent(time) + "&difficulty=" + encodeURIComponent(difficulty));
 };
-
 
                 </script>
 
@@ -289,6 +295,9 @@ $boxHeight = ($cardValue * ($cardNumber / CardsInRow($cardNumber))) + 170; // Bo
 
             </div>
         </div>
+        <div class="header-title">
+        <img src="img/playstation-logotype.png" style="width:25%;" alt="Astro Bot Logo" class="logo">
+    </div>
     </div>
 </div>
 </main>

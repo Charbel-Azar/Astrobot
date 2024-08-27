@@ -37,7 +37,7 @@ $conn = OpenCon(); // Open the connection with the database
                 echo "<tr>";
                 echo "<th>#</th>"; // Added column for numbering
                 echo "<th>Name</th>";
-                echo "<th>Time</th>";
+                echo "<th>Time (s) </th>";
                 echo "</tr>";
 
                 if ($result->num_rows > 0) {

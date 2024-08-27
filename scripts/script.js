@@ -17,10 +17,10 @@ var stopwatch = {
       const now = performance.now(); // High-resolution time in milliseconds
       stopwatch.elapsedTime = now - stopwatch.startTime;
   
-      const totalSeconds = stopwatch.elapsedTime / 1000;
+      const totalSeconds = Math.floor(stopwatch.elapsedTime / 1000);
       const hours = Math.floor(totalSeconds / 3600);
       const mins = Math.floor((totalSeconds % 3600) / 60);
-      const secs = Math.floor(totalSeconds % 60);
+      const secs = totalSeconds % 60;
       const milliseconds = Math.floor(stopwatch.elapsedTime % 1000);
   
       // Build the time string

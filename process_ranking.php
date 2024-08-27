@@ -14,10 +14,21 @@ if ($_POST && isset($_POST["username"]) && isset($_POST["time"]) && $_POST["user
     // Convert time string to seconds
     $timeParts = explode(':', $timeStr);
     $milliseconds = 0;
+    
+    // Handle milliseconds if they exist in the last part of the time string
     if (strpos(end($timeParts), '.') !== false) {
         list($seconds, $milliseconds) = explode('.', array_pop($timeParts));
         $timeParts[] = $seconds;
+    } else {
+        $milliseconds = 0;
     }
+
+    // Adjust the timeParts array to ensure it has 3 elements: hours, minutes, and seconds
+    while (count($timeParts) < 3) {
+        array_unshift($timeParts, 0);
+    }
+
+    // Calculate the total time in seconds
     $timeVal = ($timeParts[0] * 3600) + ($timeParts[1] * 60) + $timeParts[2] + ($milliseconds / 1000);
 
     // Check if the username already exists
@@ -54,9 +65,12 @@ if ($_POST && isset($_POST["username"]) && isset($_POST["time"]) && $_POST["user
             $response['message'] = "Error inserting record: " . $conn->error;
         }
     }
+} else {
+    $response['message'] = "Invalid form submission or missing required fields.";
 }
 
 CloseCon($conn);
 
 // Return the response as JSON
 echo json_encode($response);
+?>

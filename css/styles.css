@@ -50,16 +50,18 @@ main{
 /* Container for the game cards */
 .memory-game {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns as specified */
-    gap: 4vh; /* Reduced gap for better fitting */
-    justify-content: center; /* Center the grid horizontally */
-    align-items: center; /* Center the cards within the grid vertically */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4vh;
+    justify-content: center;
+    align-items: center;
     padding: 2vh;
     background: rgba(255, 255, 255, 0);
     border-radius: 10px;
-    width: 100%; /* Ensure the container is full width */
-    max-width: 50vh; /* Limit the container width for vertical screens */
+    width: 100%;
+    padding-top: 4vh;
+    max-width: 50vh;
     margin: 0 auto;
+    padding-bottom: 4vh;
 }
 
 .memory-card {
@@ -217,7 +219,7 @@ main{
 .stopwatch-time {
     display: inline-block;
     margin-top: 2vh;
-    width: 15ch; /* Adjusted width for large screen */
+/* Adjusted width for large screen */
     text-align: center;
     color: white;
     font-family: 'Courier New', Courier, monospace; /* Use monospace font */
@@ -225,6 +227,17 @@ main{
     position: relative;
     letter-spacing: 0.1ch;
 }
+.stopwatch-time-win {
+    display: inline-block;
+    margin-top: 2vh;
+    width: 15ch; /* Adjusted width for large screen */
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    position: relative;
+    letter-spacing: 0.1ch;
+}
+
 
 .parent-div {
     display: flex;
