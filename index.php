@@ -7,34 +7,63 @@ $rankMessage = ""; // Initialize the rank message
 $errorMessage = ""; // Initialize the error message for the username already taken
 
 if ($_POST && isset($_POST["username"]) && isset($_POST["time"]) && $_POST["username"] != "") {
-    $username = sanitizeInputVar($conn, $_POST["username"]); // Variable that stores Player's name
-    $timeVal = $_POST["time"]; // Variable that stores the time of stopwatch
-    $difficulty = 12; // Set difficulty to always be 12 cards
-    $dateVal = date("Ymd"); // Variable that stores the current date
+    $username = sanitizeInputVar($conn, $_POST["username"]); // Sanitize and store the player's name
+    $timeStr = $_POST["time"]; // Get the time of the stopwatch as a string
 
-    // Check if the username already exists
+    // Debugging output
+    error_log("Time received from form: " . $timeStr);
+
+    // Handle milliseconds if they exist
+    $milliseconds = 0;
+    if (strpos($timeStr, '.') !== false) {
+        list($timeStr, $milliseconds) = explode('.', $timeStr);
+        $milliseconds = (int)$milliseconds;
+    }
+
+    // Split the time string by colon to get hours, minutes, and seconds
+    $timeParts = explode(":", $timeStr);
+    $hours = isset($timeParts[0]) ? (int)$timeParts[0] : 0;
+    $minutes = isset($timeParts[1]) ? (int)$timeParts[1] : 0;
+    $seconds = isset($timeParts[2]) ? (int)$timeParts[2] : 0;
+
+    // Convert the time to total seconds, including milliseconds
+    $timeVal = ($hours * 3600) + ($minutes * 60) + $seconds + ($milliseconds / 1000);
+
+    // Debugging output
+    error_log("Converted time in seconds: " . $timeVal);
+
+    $difficulty = 12; // Set difficulty to always be 12 cards
+    $dateVal = date("Ymd"); // Get the current date in the format YYYYMMDD
+
+    // Check if the username already exists for this difficulty
     $checkUserQuery = $conn->prepare("SELECT * FROM leaderboards WHERE name = ? AND difficulty = ?");
     $checkUserQuery->bind_param("si", $username, $difficulty);
     $checkUserQuery->execute();
     $checkUserResult = $checkUserQuery->get_result();
 
     if ($checkUserResult->num_rows > 0) {
-        // If user exists, set an error message
+        // If the username already exists, set an error message
         $errorMessage = "Username already taken";
+        error_log($errorMessage);
     } else {
-        // If user does not exist, insert a new record
+        // Insert the new record into the leaderboards table
         $insertQuery = $conn->prepare("INSERT INTO leaderboards (name, difficulty, time, date) VALUES (?, ?, ?, ?)");
-        $insertQuery->bind_param("siss", $username, $difficulty, $timeVal, $dateVal);
-        $insertQuery->execute();
+        $insertQuery->bind_param("sids", $username, $difficulty, $timeVal, $dateVal); // 'd' for double
+
+        if ($insertQuery->execute()) {
+            error_log("Record inserted successfully with time: $timeVal");
+        } else {
+            error_log("Failed to insert record: " . $insertQuery->error);
+        }
 
         // Calculate the player's rank
         $rankQuery = $conn->prepare("SELECT COUNT(*) AS rank FROM leaderboards WHERE time <= ? AND difficulty = ?");
-        $rankQuery->bind_param("ii", $timeVal, $difficulty);
+        $rankQuery->bind_param("di", $timeVal, $difficulty); // 'd' for double
         $rankQuery->execute();
         $rankResult = $rankQuery->get_result();
         $rank = $rankResult->fetch_assoc()['rank'];
 
-        // Get the total number of players
+        // Get the total number of players for this difficulty
         $totalPlayersQuery = $conn->prepare("SELECT COUNT(*) AS total FROM leaderboards WHERE difficulty = ?");
         $totalPlayersQuery->bind_param("i", $difficulty);
         $totalPlayersQuery->execute();
@@ -49,8 +78,9 @@ if ($_POST && isset($_POST["username"]) && isset($_POST["time"]) && $_POST["user
         header("Location: index.php?success=1&rankMessage=" . urlencode($rankMessage));
         exit();
     }
+} else {
+    error_log("Invalid form submission or missing required fields.");
 }
-
 // Remove the difficulty selection and set cardNumber directly
 $cardNumber = 4; // Always use 12 cards
 
@@ -174,12 +204,15 @@ $boxHeight = ($cardValue * ($cardNumber / CardsInRow($cardNumber))) + 170; // Bo
                 </form>
                 <input type="button" value="Play Again" id="play-again-button" onclick="location.reload();">
                 <script type="text/javascript">
-               document.getElementById("win-form").onsubmit = function(e) {
+           document.getElementById("win-form").onsubmit = function(e) {
     e.preventDefault(); // Prevent the form from submitting in the traditional way
-    
+
     var username = document.getElementById("username").value;
-    var time = document.querySelector(".stopwatch-time").textContent; // Capture the time
+    var time = document.querySelector(".stopwatch-time").textContent.trim(); // Capture the time and trim any whitespace
     var difficulty = document.getElementById("difficulty").value;
+
+    console.log("Time to be submitted:", time); // Debugging line
+    console.log("Username:", username); // Debugging line
 
     // AJAX request to submit the form data
     var xhr = new XMLHttpRequest();
@@ -215,7 +248,6 @@ $boxHeight = ($cardValue * ($cardNumber / CardsInRow($cardNumber))) + 170; // Bo
 
     xhr.send("username=" + encodeURIComponent(username) + "&time=" + encodeURIComponent(time) + "&difficulty=" + encodeURIComponent(difficulty));
 };
-
 
 
                 </script>

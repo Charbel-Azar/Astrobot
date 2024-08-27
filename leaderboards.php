@@ -5,81 +5,63 @@ $conn = OpenCon(); // Open the connection with the database
 <!DOCTYPE html>
 <html lang="en">
 <link rel="shortcut icon" type="image/x-icon" href="img/logo white.png">
-    <head>
-        <meta charset="UTF-8">
-        <title>Leaderboards</title>
-        <link href="css/styles.css" rel="stylesheet">
-        <style>
-             
-        </style>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>Leaderboards</title>
+    <link href="css/styles.css" rel="stylesheet">
+</head>
 <body>
     <header>
         <!-- Header with title and navigation links -->
-      
     </header>
 
-
     <main>
-    <div class="card">
-    <div class="header-title">
-            <img src="img/logo long.png" style="width:45%;" alt="Astro Bot Logo" class="logo">
-        </div>
+        <div class="card">
+            <div class="header-title">
+                <img src="img/logo long.png" style="width:45%;" alt="Astro Bot Logo" class="logo">
+            </div>
             <!-- Search Bar -->
             <div class="search-bar">
-                    <input type="text" id="searchInput" placeholder="Find your ranking..." onkeyup="filterTable()">
-                </div>
+                <input type="text" id="searchInput" placeholder="Find your ranking..." onkeyup="filterTable()">
+            </div>
 
-    
-                <div class="container" >
-            <!-- Centered leaderboard table with styled borders -->
-            <?php
-            // Select name and time, and order by time (fastest first)
-            $sql = "SELECT name, time FROM leaderboards ORDER BY time ASC";
-            $result = $conn->query($sql);
+            <div class="container">
+                <!-- Centered leaderboard table with styled borders -->
+                <?php
+                // Select name and time, and order by time (fastest first)
+                $sql = "SELECT name, time FROM leaderboards ORDER BY CAST(time AS DECIMAL(10, 3)) ASC";
+                $result = $conn->query($sql);
 
-            echo "<div class='leaderboard-box' style=\"    border: 3px solid #000;\">";
-            echo "<table id='leaderboardTable'>";
-            echo "<tr>";
-            echo "<th>#</th>"; // Added column for numbering
-            echo "<th>Name</th>";
-            echo "<th>Time</th>";
-            echo "</tr>";
+                echo "<div class='leaderboard-box' style=\"border: 3px solid #000;\">";
+                echo "<table id='leaderboardTable'>";
+                echo "<tr>";
+                echo "<th>#</th>"; // Added column for numbering
+                echo "<th>Name</th>";
+                echo "<th>Time</th>";
+                echo "</tr>";
 
-            if ($result->num_rows > 0) {
-                $rank = 1; // Initialize rank counter
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>" . $rank++ . "</td>"; // Display rank number
-                    echo "<td>" . htmlspecialchars($row['name']) . "</td>"; // Secure output of name
-                    
-                    // Convert the time from milliseconds to hours, minutes, seconds, and milliseconds
-                    $timeInMillis = floatval($row["time"]);
-                    $hours = floor($timeInMillis / 3600000);
-                    $minutes = floor(($timeInMillis % 3600000) / 60000);
-                    $seconds = floor(($timeInMillis % 60000) / 1000);
-                    $milliseconds = $timeInMillis % 1000;
-                    
-                    $formattedTime = sprintf('%02d:%02d:%02d.%03d', $hours, $minutes, $seconds, $milliseconds);
-
-                    echo "<td>" . htmlspecialchars($formattedTime) . "</td>"; // Correctly format and display the time
-                    echo "</tr>";
+                if ($result->num_rows > 0) {
+                    $rank = 1; // Initialize rank counter
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . $rank++ . "</td>"; // Display rank number
+                        echo "<td>" . htmlspecialchars($row['name']) . "</td>"; // Secure output of name
+                        echo "<td>" . htmlspecialchars($row['time']) . "</td>"; // Directly display the time string
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='3' style='text-align: center;'>No results</td></tr>";
                 }
-            } else {
-                echo "<tr><td colspan='3' style='text-align: center;'>No results</td></tr>";
-            }
 
-            echo "</table>";
-            echo "</div>";
+                echo "</table>";
+                echo "</div>";
 
-            CloseCon($conn); // Close the connection with the database
-            ?>
-        </div>
+                CloseCon($conn); // Close the connection with the database
+                ?>
+            </div>
 
-        <!-- Start Again button -->
-        <a href="index.php" class="start-again-button">Start Again</a>
-        
-        
+            <!-- Start Again button -->
+            <a href="index.php" class="start-again-button">Start Again</a>
         </div>
     </main>
 
