@@ -42,7 +42,6 @@ body {
 main{
     overflow: auto;
     padding-bottom: 100px;
-    min-height: calc(100vh - 75px - 55px);
     width: 95%
 }
 /*CSS OF CARDS*/
@@ -64,6 +63,31 @@ main{
     padding-bottom: 4vh;
 }
 
+
+.memory-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.memory-card.flip {
+  transform: rotateY(180deg);
+}
+
+.memory-card.matched {
+  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.7);
+}
+
+@keyframes slowGlow {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+    100% {
+      box-shadow: 0 0 15px 8px rgba(255, 255, 255, 0.7);
+    }
+  }
+  
+  .memory-card.matched {
+    animation: slowGlow 0.5s ease-in-out forwards;
+  }
 .memory-card {
     width: 9vh;
     height: 16vh; /* Keeping a square card */

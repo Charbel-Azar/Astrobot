@@ -196,7 +196,7 @@ $boxHeight = ($cardValue * ($cardNumber / CardsInRow($cardNumber))) + 170; // Bo
             if ($i % 2 == 0) {
                 $val += 1;
             }
-            echo "<div class='memory-card' data-framework='{$imagesArr[$val]}'>";
+            echo "<div class='memory-card ' data-framework='{$imagesArr[$val]}'>";
             echo "<div class='front-face'><img src='{$imagePath}{$imagesArr[$val]}.png' alt='{$imagesArr[$val]}'></div>";
             echo "<div class='back-face'><img src='img/logo white.png' alt='Logo'></div>";
             echo "</div>";
@@ -296,7 +296,7 @@ $boxHeight = ($cardValue * ($cardNumber / CardsInRow($cardNumber))) + 170; // Bo
             </div>
         </div>
         <div class="header-title">
-        <img src="img/playstation-logotype.png" style="width:25%;" alt="Astro Bot Logo" class="logo">
+        <img src="img/buttons (1).png" style="width:25%;" alt="Astro Bot Logo" class="logo">
     </div>
     </div>
 </div>

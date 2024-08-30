@@ -98,23 +98,28 @@ function checkForMatch() {
 }
 
 function disableCards() {
-    // Remove click event from cards that are disabled
-	firstCard.removeEventListener('click', flipCard);
-	secondCard.removeEventListener('click', flipCard);
-	Matches += 1; // Increase matches amount
-	
-	resetBoard();
+  // Wait for both cards to finish flipping before adding the 'matched' class
+  setTimeout(() => {
+    firstCard.classList.add('matched');
+    secondCard.classList.add('matched');
+    
+    firstCard.removeEventListener('click', flipCard);
+    secondCard.removeEventListener('click', flipCard);
+    Matches += 1;
+    
+    resetBoard();
+  }, 300); // Adjust this delay if needed to match your flip animation duration
 }
 
-function unflipCards() {
-    lockBoard = true;
 
-    setTimeout(() => {
-        // Flip the cards back by removing flip class
-        firstCard.classList.remove('flip'); 
-        secondCard.classList.remove('flip');
-        resetBoard();
-    }, 750);
+function unflipCards() {
+  lockBoard = true;
+
+  setTimeout(() => {
+    firstCard.classList.remove('flip');
+    secondCard.classList.remove('flip');
+    resetBoard();
+  }, 1000); // Increased from 750ms to give more time for visual feedback
 }
 
 function resetBoard() {
