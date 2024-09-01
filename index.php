@@ -207,7 +207,7 @@ $boxHeight = ($cardValue * ($cardNumber / CardsInRow($cardNumber))) + 170; // Bo
         <!-- The Congratulations window that appears after the player wins -->
         <div class="win-box">
             <div class="win-content">
-                <h1>Congratulations, You won!</h1>
+                <h1>Congratulations!</h1>
                 <div id="stopwatch-end">
                     <span>Your time: </span>
                     <span class="stopwatch-time" style="color:#000 !important;    font-family: 'Astro', sans-serif !important;">00:00:00</span>
