@@ -198,7 +198,7 @@ $boxHeight = ($cardValue * ($cardNumber / CardsInRow($cardNumber))) + 170; // Bo
             }
             echo "<div class='memory-card ' data-framework='{$imagesArr[$val]}'>";
             echo "<div class='front-face'><img src='{$imagePath}{$imagesArr[$val]}.png' alt='{$imagesArr[$val]}'></div>";
-            echo "<div class='back-face'><img src='img/logo white.png' alt='Logo'></div>";
+            echo "<div class='back-face'><img src='img/Artboard 1.jpg' alt='Logo'></div>";
             echo "</div>";
         }
         echo "</div>";
@@ -207,7 +207,7 @@ $boxHeight = ($cardValue * ($cardNumber / CardsInRow($cardNumber))) + 170; // Bo
         <!-- The Congratulations window that appears after the player wins -->
         <div class="win-box">
             <div class="win-content">
-                <h1>Congratulations, You won!</h1>
+                <h1>Congratulations!</h1>
                 <div id="stopwatch-end">
                     <span>Your time: </span>
                     <span class="stopwatch-time" style="color:#000 !important;    font-family: 'Astro', sans-serif !important;">00:00:00</span>

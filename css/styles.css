@@ -117,10 +117,9 @@ main{
     transform: rotateY(180deg);
 }
 
-/* Card faces */
-.front-face, .back-face {
-    width: 9vh;
-    height: 16vh; /* Match the height of the card */
+front-face, .back-face {
+    width: 100%; /* Use 100% to make the image fill the card */
+    height: 100%; /* Use 100% to make the image fill the card */
     position: absolute;
     backface-visibility: hidden;
     border-radius: 5px;
@@ -129,6 +128,12 @@ main{
     align-items: center;
 }
 
+.memory-card img {
+    width: 100%; /* Make the image take up the full width of the card */
+    height: 100%; /* Make the image take up the full height of the card */
+    object-fit: cover; /* Ensures the image covers the entire area */
+    border-radius: 5px; /* Matches the border-radius of the card */
+}
 .front-face {
     background-color: white;
     transform: rotateY(180deg);
@@ -139,11 +144,6 @@ main{
     border: 1px solid #ffffff;
 }
 
-/* SVG inside the card */
-.memory-card img {
-    max-width: 70%;
-    max-height: 70%;
-}
 .leaderboard-icon {
     position: absolute;
     top: 10px; /* Adjust as needed */
